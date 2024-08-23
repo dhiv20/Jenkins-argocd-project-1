@@ -4,6 +4,7 @@ pipeline {
     environment {
         IMAGE_TAG = "${BUILD_NUMBER}"
         DOCKER_CREDENTIALS_ID = 'docker-login'
+        GIT_USERNAME = 'd2bdocker'
     }
 
     stages {
