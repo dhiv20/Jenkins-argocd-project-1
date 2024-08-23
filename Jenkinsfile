@@ -38,7 +38,7 @@ pipeline {
         stage('Update K8S manifest & push to Repo') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'github-login', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                    withCredentials([gitUsernamePassword(credentialsId: 'github-login')]) {
                         sh '''
                         cat deploy.yaml
                         sed -i "s|image: d2bdocker/cicd-e2e:v1|image: d2bdocker/cicd-e2e:${BUILD_NUMBER}|g" deploy.yaml
