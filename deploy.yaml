@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: todo
-        image: d2bdocker/cicd-e2e:14
+        image: d2bdocker/cicd-e2e:15
         ports:
         - containerPort: 8000
