@@ -30,7 +30,7 @@ pipeline {
             steps {
                 git credentialsId: 'github-login',
                     url: 'https://github.com/dhiv20/Jenkins-argocd-proj1.git',
-                    branch: 'master',
+                    branch: 'master'
             }
         }
 
