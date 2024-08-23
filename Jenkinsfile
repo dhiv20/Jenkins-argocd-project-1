@@ -29,7 +29,7 @@ pipeline {
         stage('Checkout K8S manifest SCM') {
             steps {
                 git credentialsId: 'github-login',
-                    url: 'https://github.com/dhiv20/Jenkins-argocd-proj1.git',
+                    url: 'https://github.com/dhiv20/Jenkins-argocd-proj1-deployments.git',
                     branch: 'master'
             }
         }
@@ -48,7 +48,7 @@ pipeline {
                         git config --global user.name "Divye-Automatic"
                         git commit -m "Updated the deploy yaml | Jenkins Pipeline"
                         git remote -v
-                        git push 'https://github.com/dhiv20/Jenkins-argocd-proj1.git' HEAD:master
+                        git push 'https://github.com/dhiv20/Jenkins-argocd-proj1-deployments.git' HEAD:master
                         '''
                     }
                 }
