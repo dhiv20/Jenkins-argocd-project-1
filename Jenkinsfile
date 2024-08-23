@@ -31,7 +31,6 @@ pipeline {
                 git credentialsId: 'github-login',
                     url: 'https://github.com/dhiv20/Jenkins-argocd-proj1.git',
                     branch: 'master',
-                    path: '/deploy',
             }
         }
 
@@ -40,12 +39,10 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'github-login', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh '''
-                        cd /deploy
                         cat deploy.yaml
                         sed -i "s/32/${BUILD_NUMBER}/g" deploy.yaml
                         cat deploy.yaml
-                        cd /
-                        git add .
+                        git add deploy.yaml
                         git commit -m "Updated the deploy yaml | Jenkins Pipeline"
                         git remote -v
                         git push https://github.com/dhiv20/Jenkins-argocd-proj1.git HEAD:master
