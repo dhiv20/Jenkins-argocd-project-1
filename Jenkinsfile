@@ -40,6 +40,7 @@ pipeline {
                     withCredentials([gitUsernamePassword(credentialsId: 'github-login')]) {
                         sh '''
                         cat deploy.yaml
+                        EXISTING_TAG=$(grep 'image: d2bdocker/cicd-e2e:' deploy.yaml | awk -F ':' '{print $3}')
                         sed -i "s|image: d2bdocker/cicd-e2e:${EXISTING_TAG}|image: d2bdocker/cicd-e2e:${BUILD_NUMBER}|g" deploy.yaml
                         cat deploy.yaml
                         git add deploy.yaml
