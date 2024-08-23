@@ -40,7 +40,7 @@ pipeline {
                     withCredentials([gitUsernamePassword(credentialsId: 'github-login')]) {
                         sh '''
                         cat deploy.yaml
-                        sed -i "s|image: d2bdocker/cicd-e2e:${IMAGE_TAG}|image: d2bdocker/cicd-e2e:${BUILD_NUMBER}|g" deploy.yaml
+                        sed -i "s|image: d2bdocker/cicd-e2e:${EXISTING_TAG}|image: d2bdocker/cicd-e2e:${BUILD_NUMBER}|g" deploy.yaml
                         cat deploy.yaml
                         git add deploy.yaml
                         git config --global user.email "divy.bhatnagar@outlook.com"
