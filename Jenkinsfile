@@ -1,64 +1,55 @@
 pipeline {
-    
-    agent any 
-    
+    agent any
+
     environment {
         IMAGE_TAG = "${BUILD_NUMBER}"
+        DOCKER_CREDENTIALS_ID = 'docker-login'
     }
-    
+
     stages {
-        
-        stage('Checkout'){
-           steps {
-                git credentialsId: 'f87a34a8-0e09-45e7-b9cf-6dc68feac670', 
-                url: 'https://github.com/iam-veeramalla/cicd-end-to-end',
-                branch: 'main'
-           }
+        stage('Checkout') {
+            steps {
+                git credentialsId: 'github-login',
+                    url: 'https://github.com/dhiv20/Jenkins-argocd-proj1.git',
+                    branch: 'master'
+            }
         }
 
-        stage('Build Docker'){
-            steps{
-                script{
-                    sh '''
-                    echo 'Buid Docker Image'
-                    docker build -t abhishekf5/cicd-e2e:${BUILD_NUMBER} .
-                    '''
+        stage('Build Docker') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
+                        def app = docker.build("d2bdocker/cicd-e2e:${BUILD_NUMBER}")
+                        app.push()
+                    }
                 }
             }
         }
 
-        stage('Push the artifacts'){
-           steps{
-                script{
-                    sh '''
-                    echo 'Push to Repo'
-                    docker push abhishekf5/cicd-e2e:${BUILD_NUMBER}
-                    '''
-                }
+        stage('Checkout K8S manifest SCM') {
+            steps {
+                git credentialsId: 'github-login',
+                    url: 'https://github.com/dhiv20/Jenkins-argocd-proj1.git',
+                    branch: 'master',
+                    path: '/deploy',
             }
         }
-        
-        stage('Checkout K8S manifest SCM'){
+
+        stage('Update K8S manifest & push to Repo') {
             steps {
-                git credentialsId: 'f87a34a8-0e09-45e7-b9cf-6dc68feac670', 
-                url: 'https://github.com/iam-veeramalla/cicd-demo-manifests-repo.git',
-                branch: 'main'
-            }
-        }
-        
-        stage('Update K8S manifest & push to Repo'){
-            steps {
-                script{
-                    withCredentials([usernamePassword(credentialsId: 'f87a34a8-0e09-45e7-b9cf-6dc68feac670', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'github-login', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh '''
+                        cd /deploy
                         cat deploy.yaml
-                        sed -i '' "s/32/${BUILD_NUMBER}/g" deploy.yaml
+                        sed -i "s/32/${BUILD_NUMBER}/g" deploy.yaml
                         cat deploy.yaml
-                        git add deploy.yaml
-                        git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
+                        cd /
+                        git add .
+                        git commit -m "Updated the deploy yaml | Jenkins Pipeline"
                         git remote -v
-                        git push https://github.com/iam-veeramalla/cicd-demo-manifests-repo.git HEAD:main
-                        '''                        
+                        git push https://github.com/dhiv20/Jenkins-argocd-proj1.git HEAD:master
+                        '''
                     }
                 }
             }
