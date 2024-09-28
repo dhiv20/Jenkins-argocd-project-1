@@ -1,4 +1,4 @@
-# django-todo
+## django-todo
 A simple todo app built with django
 
 ![todo App](https://raw.githubusercontent.com/shreys7/django-todo/develop/staticfiles/todoApp.png)
@@ -9,7 +9,7 @@ A simple todo app built with django
 
 
 
-Requirements of the Project:
+## Requirements of the Project:
 
 - First we need to have some sample application with source code etc. 
 EG: "To-Do-List App" in "python-jenkins-argocd-k8s" directory at Github URL = https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero.git
@@ -29,7 +29,7 @@ EG: "To-Do-List App" in "python-jenkins-argocd-k8s" directory at Github URL = ht
 
 
 
-Working of the Project: 
+## Working of the Project: 
 
 - Firstly we will clone the Django-todo App into our workspace.
 - Then we will test & verify the functioning of the application on our local workspace.
