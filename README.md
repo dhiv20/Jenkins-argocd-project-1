@@ -29,25 +29,23 @@ EG: "To-Do-List App" in "python-jenkins-argocd-k8s" directory at Github URL = ht
 
 Working of the Project: 
 
-> Firstly we will clone the Django-todo App into our workspace.
-> Then we will test & verify the functioning of the application on our local workspace.
-> Make sure Jenkins, Argo cd, docker, k8s cluster are active in the master server. (nproc if required)
-> Then create Jenkins Credentials for docker and github. The credential id from these credentials will be used in the pipeline scripts.
-> We will now create the Jenkinsfile, Dockerfile , deployment.yaml , service.yaml.
-> With jenknsfile we have facilitated multiple stages with following functions:
+1. Firstly we will clone the Django-todo App into our workspace.
+2. Then we will test & verify the functioning of the application on our local workspace.
+3. Make sure Jenkins, Argo cd, docker, k8s cluster are active in the master server. (nproc if required)
+4. Then create Jenkins Credentials for docker and github. The credential id from these credentials will be used in the pipeline scripts.
+5. We will now create the Jenkinsfile, Dockerfile , deployment.yaml , service.yaml.
+6. With jenknsfile we have facilitated multiple stages with following functions:
 
     CI Part:
 	> When we make changes to the html file in template folder of the to-do app files. Then with github webhook trigger, jenkins checks the github repo,
         and builds the dockerfile. This dockerfile creates an image of the to-do app files along with run-time support, dependencies etc. 
           Then this new image is pushed to the dockerhub. 
-
 	> We have another repository which has deployment.yaml file and service.yaml file. Whenever a new image is build and pushed to the dockerhub, 
 	the same image's name and tag is updated in the deployment.yaml file automatically. 
 
     CD Part:
 	> We will create an argo cd app at argo cd portal. Argo cd app will check for any changes made to the deployment file in the second github repo of deployment manifests, 
 	and argo cd will deploy k8s cluster with the to-do app from the new image versions that we get from continuous integration.
-
 	> open the address on browser we get using command: 
 		> minikube service <service-name> --url
 	We can see the to-do app running.
