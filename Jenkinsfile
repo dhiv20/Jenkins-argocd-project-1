@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         IMAGE_TAG = "${BUILD_NUMBER}"
-        DOCKER_CREDENTIALS_ID = 'docker-login'
+        DOCKER_CREDENTIALS_ID = 'docker'    #credential id of docker as created in jenkins
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'github-login',
+                git credentialsId: 'github',    #credential id of docker as created in jenkins
                     url: 'https://github.com/dhiv20/Jenkins-argocd-project-1.git',
                     branch: 'master'
             }
@@ -28,7 +28,7 @@ pipeline {
 
         stage('Checkout K8S manifest SCM') {
             steps {
-                git credentialsId: 'github-login',
+                git credentialsId: 'github',
                     url: 'https://github.com/dhiv20/Jenkins-argocd-project-1-deployments.git',
                     branch: 'master'
             }
@@ -37,7 +37,7 @@ pipeline {
         stage('Update K8S manifest & push to Repo') {
             steps {
                 script {
-                    withCredentials([gitUsernamePassword(credentialsId: 'github-login')]) {
+                    withCredentials([gitUsernamePassword(credentialsId: 'github')]) {
                         sh '''
                         cat deploy.yaml
                         EXISTING_TAG=$(grep 'image: d2bdocker/cicd-e2e:' deploy.yaml | awk -F ':' '{print $3}')
