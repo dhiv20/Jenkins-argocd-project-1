@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         IMAGE_TAG = "${BUILD_NUMBER}"
-        DOCKER_CREDENTIALS_ID = 'docker'    #credential id of docker as created in jenkins
+        DOCKER_CREDENTIALS_ID = 'docker'    
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'github',    #credential id of docker as created in jenkins
+                git credentialsId: 'github',   
                     url: 'https://github.com/dhiv20/Jenkins-argocd-project-1.git',
                     branch: 'master'
             }
