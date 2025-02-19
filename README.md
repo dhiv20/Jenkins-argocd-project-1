@@ -45,5 +45,5 @@ EG: "To-Do-List App" at Github URL = https://github.com/dhiv20/Jenkins-argocd-pr
 
 	CD Part:
 	- We will create an argo cd app at argo cd portal. Argo cd app will check for any changes made to the deployment file in the second github repo 	of deployment manifests, and argo cd will deploy k8s cluster with the to-do app from the new image versions that we get from continuous integration.
-	- Open the address on browser we get using command: minikube service <service-name> --url
+	- Open the address on browser we get using command: minikube service service-name --url
 	- We can see the to-do app running.
